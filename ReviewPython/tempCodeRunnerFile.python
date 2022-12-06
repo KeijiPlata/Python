@@ -1,0 +1,19 @@
+# Assignment #1
+
+num1 = input("Please enter your first number: ")
+num2 = input("Please enter your second number: ")
+
+# Addition
+total = num1 + num2
+
+# Subtraction
+total = num1 - num2
+
+# Multiplication
+total = num1 * num2
+
+# Division
+total = num1 / num2
+
+# Modulus
+total = num1 % num2
