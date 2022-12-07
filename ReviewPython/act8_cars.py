@@ -21,7 +21,7 @@ def informationCar2(manufacturer, modelName, **CarInfo):
     for option, value in option.items:
         carDetails[option] = value
 
-    return carDetails
+    return carDetails 
 
 # funciton calls
 car = informationCar('subaru', 
