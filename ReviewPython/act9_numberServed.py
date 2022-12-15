@@ -14,7 +14,7 @@ class Restaurant:
         """ print the output for attributes"""
         print(f"Restaurant Name: {self.name.title()}")
         print(f"Cuisine Type: {self.ctype.title()}")
-        print(f"Number Served: {self.number_served}")
+        print(f"Number Served: {self.number_served}\n")
 
     def open_restaurant(self):
         """ Prints a message that the restaurant is open """
@@ -30,4 +30,14 @@ class Restaurant:
 
 # creating the instance 
 restaurant = Restaurant("Jollibee", "Fastfood")
+restaurant.describe_restaurant()
+
+# set the number of served 
+restaurant.set_number_served(300)
+restaurant.describe_restaurant()
+
+# increment the value of number_served
+restaurant.increment_number_served(100)
+restaurant.describe_restaurant()
+
 
