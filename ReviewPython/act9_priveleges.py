@@ -15,7 +15,7 @@ class User:
 
     def describe_user(self):
         """ Printing information about the user """
-        print(f"Name: {self.first.title()} {self.last.title()}")
+        print(f"Name: {self.first.title()} {self.last.title()}") 
         print(f"Age: {self.age}")
         print(f"Gender: {self.gender}")
         print(f"Login Attempts: {self.login_attempts}\n")
