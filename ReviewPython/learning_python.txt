@@ -1,0 +1,5 @@
+# since this is only a example, I will make this short
+
+I learned many things in python such as creating a function, class, loops and 
+how oop works on python. In activity 10-2 I have to replace a word and the sentence
+here will be replaced by a program that I will make later. "I really like dogs"
