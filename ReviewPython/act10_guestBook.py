@@ -18,7 +18,7 @@ while flag:
         fileObj.write(f"{guest} \n")
 
     # To know if the user stillw ant to continue the program
-    if exit == 'n' or exit == 'N':
+    if exit == 'Y' or exit == 'y':
         flag = False
 
 # prompt that the user ends.
