@@ -9,7 +9,7 @@ guest = input(prompt)
 
 # creating a new file if the file is not existing
 # and overwrite if it exist
-with open("guest.txt", 'w') as fileObj:
+with open("ReviewPython\\guest.txt", 'w') as fileObj:
     fileObj.write("Welcome this is a guest list where you are the only guest!\n")
     fileObj.write(guest)
 
