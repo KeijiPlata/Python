@@ -33,6 +33,9 @@ def getWinningTicket(randomNumLetters):
 
 def checkTicket(myticket, winningticket):
     """ Checks if the ticket is winning or not """
+    # we are looping here the ticket we chose and checks if it inside the 
+    # winning ticket. This function will return false if one element
+    # is not inside the winning ticket
     for element in myticket:
         if element not in winningticket:
             return False
@@ -40,11 +43,13 @@ def checkTicket(myticket, winningticket):
     return True
 
 while not won:
+    # calling the function we made
     ticket = getWinningTicket(randomNumLetters)
     won = checkTicket(myTicket, ticket)
     plays += 1 # add 1 to number of plays
-    print(f"Current Ticket: {ticket}")
+    print(f"Current Ticket: {ticket}") # display the current ticket
 
+# if the user won
 if won:
     print("YOU WIN!!")
     print(f"Your Ticket: {myTicket}")
