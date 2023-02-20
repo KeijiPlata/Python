@@ -31,12 +31,18 @@ class Rocketgame:
         # movement flag
         self.moving_right = False
         self.moving_left = False
+        self.moving_up = False
+        self.moving_down = False
 
     def update(self):
         if self.moving_right:
             self.rect.x += 1
         if self.moving_left:
             self.rect.x -= 1
+        if self.moving_up:
+            self.rect.y -= 1
+        if self.moving_down:
+            self.rect.y += 1
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
@@ -54,6 +60,12 @@ class Rocketgame:
                     elif event.key == pygame.K_LEFT:
                         # Move the ship to the left
                         self.moving_left = True
+                    elif event.key == pygame.K_UP:
+                        # Move the ship to the left
+                        self.moving_up = True
+                    elif event.key == pygame.K_DOWN:
+                        # Move the ship to the left
+                        self.moving_down = True
                     
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
@@ -62,6 +74,12 @@ class Rocketgame:
                     elif event.key == pygame.K_LEFT:
                         # Stop ship 
                         self.moving_left = False
+                    elif event.key == pygame.K_UP:
+                        # Stop ship 
+                        self.moving_up = False
+                    elif event.key == pygame.K_DOWN:
+                        # Stop ship 
+                        self.moving_down = False
                    
 
             self.update()
