@@ -66,6 +66,9 @@ class Rocketgame:
                     elif event.key == pygame.K_DOWN:
                         # Move the ship to the left
                         self.moving_down = True
+                    elif event.key == pygame.K_q:
+                        # if user press q, it will quit the game
+                        sys.exit()
                     
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
