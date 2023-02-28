@@ -56,7 +56,9 @@ class Rocketgame:
 
         # load the ship
         self.image = pygame.image.load('ReviewPython\\act12_alien_invasion\\ship.bmp')
+        self.image = pygame.transform.rotate(self.image, -90)
         self.rect = self.image.get_rect() # get the rect of image
+
 
         # Start new ship at the center of the screen
         # rect is the box of the image / size 
