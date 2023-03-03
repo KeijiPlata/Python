@@ -10,17 +10,20 @@ def askPlayer(secretNumber):
     """Ask player 6 times to guess the number """
     print("I am thinking of a number between 1 and 20")
     for guessTaken in range(1, 7):
+        # user input
         print("Take a guess: ")
         guess = int(input())
 
+        # condition to know if the number is high or low
         if guess < secretNumber:
             print('Your guess is too low')
         elif guess > secretNumber:
             print('You guess is too high')
         else:
+            # if user got it right, return guess, and number of guesses
             return guess, guessTaken
-            break
-        
+    
+    # return guess if the use didn't get it right
     return guess, guessTaken
             
 def displayNumber(secretNumber, guess, guesstaken):
