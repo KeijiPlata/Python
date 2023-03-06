@@ -20,6 +20,7 @@ class Stars(Sprite):
                 if event.type == pygame.QUIT:
                     sys.exit()
 
+            # color black bg
             self.screen.fill(self.bg_color)
             pygame.display.flip()
 
