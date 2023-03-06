@@ -43,21 +43,24 @@ class StarsGame():
         stars = Stars(self)
 
         # get the width of the star
-        stars_width = stars.rect.width
+        stars_width, stars_height = stars.rect.size
 
         # compute for the available space to compute the number of 
         # stars possible in the screen
 
         available_space_x = self.screen_width - (2 * stars_width)
+        available_space_y = self.screen_height - (2 * stars_height)
+        number_rows = available_space_y // (2 * stars_height)
         number_stars_x = available_space_x // (2 * stars_width)
 
-        for starNum in range(number_stars_x):
-            # create a star and then group it 
-            stars = Stars(self)
-            stars.x = stars_width + 2 * stars_width * starNum
-            stars.rect.x = stars.x
-            self.stars.add(stars)
-
+        for rowNum in range(number_rows):
+            for starNum in range(number_stars_x):
+                # create a star and then group it 
+                stars = Stars(self)
+                stars.x = stars_width + 2 * stars_width * starNum
+                stars.rect.y = stars.rect.height + 2 * stars.rect.height * rowNum
+                stars.rect.x = stars.x
+                self.stars.add(stars)
 
     def run_game(self):
         """Main loop"""
