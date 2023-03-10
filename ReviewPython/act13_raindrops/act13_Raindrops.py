@@ -25,6 +25,7 @@ class Rain():
         self.bg_color = (0, 0, 0)
 
     def run_game(self):
+        """main loop for the game"""
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
