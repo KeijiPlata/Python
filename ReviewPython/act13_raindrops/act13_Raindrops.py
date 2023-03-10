@@ -1,6 +1,7 @@
 # import packages needed
 import pygame
 import sys
+import random
 from pygame.sprite import Sprite
 
 class Raindrop(Sprite):
@@ -20,7 +21,7 @@ class Raindrop(Sprite):
 
         # store horizontal position
         self.y = float(self.rect.y)
-        self.raindrop_speed = 0.1
+        self.raindrop_speed = 0.5
 
     def update(self):
         """move the raindrops down"""
@@ -54,18 +55,23 @@ class Rain():
         raindrops_width, raindrops_height = raindrop.rect.size
 
         # compute for the available space
-        available_space_x = self.screen_width - raindrops_width# full width
+        available_space_x = self.screen_width # full width
         available_space_y = self.screen_height
-        number_rows = available_space_y // (2 * raindrops_height)
-        number_raindorps_x = available_space_x // (2 * raindrops_width)
+        number_rows = available_space_y // (raindrops_height)
+        number_raindorps_x = available_space_x // (raindrops_width)
 
         for row in range(number_rows):    
             for raindropsNum in range(number_raindorps_x):
                 raindrop = Raindrop(self)
                 raindrops_width, raindrops_height = raindrop.rect.size
-                raindrop.y = 2* raindrops_height * row
+                raindrop.y = raindrops_height * row
                 raindrop.rect.y = raindrop.y
-                raindrop.rect.x =  raindrops_width + 2 * raindrops_width * raindropsNum
+                raindrop.rect.x =  raindrops_width * raindropsNum
+
+                raindrop.rect.x += random.randint(-40, 40)
+                raindrop.rect.y += random.randint(-40, 40)
+
+                
                 self.raindrops.add(raindrop)
 
     def run_game(self):
