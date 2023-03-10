@@ -34,7 +34,7 @@ class StarsGame():
         # bg color
         self.bg_color = (0, 0, 0)
 
-        # create aliens
+        # create stars
         self.stars = pygame.sprite.Group()
         self._create_fleet()
 
