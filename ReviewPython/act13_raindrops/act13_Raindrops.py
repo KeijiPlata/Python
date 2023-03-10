@@ -19,7 +19,13 @@ class Raindrop(Sprite):
         self.rect.y = self.rect.height
 
         # store horizontal position
-        self.x = self.rect.x
+        self.y = float(self.rect.y)
+        self.raindrop_speed = 0.1
+
+    def update(self):
+        """move the raindrops down"""
+        self.y += self.raindrop_speed
+        self.rect.y = self.y
 
 class Rain():
     """Manage the raindrops"""
@@ -48,18 +54,18 @@ class Rain():
         raindrops_width, raindrops_height = raindrop.rect.size
 
         # compute for the available space
-        available_space_x = self.screen_width # full width
+        available_space_x = self.screen_width - raindrops_width# full width
         available_space_y = self.screen_height
-        number_rows = available_space_y // raindrops_height
-        number_raindorps_x = available_space_x // raindrops_width 
+        number_rows = available_space_y // (2 * raindrops_height)
+        number_raindorps_x = available_space_x // (2 * raindrops_width)
 
         for row in range(number_rows):    
             for raindropsNum in range(number_raindorps_x):
                 raindrop = Raindrop(self)
                 raindrops_width, raindrops_height = raindrop.rect.size
-                raindrop.x = raindrops_width * raindropsNum
-                raindrop.rect.y = raindrops_height * row
-                raindrop.rect.x = raindrop.x
+                raindrop.y = 2* raindrops_height * row
+                raindrop.rect.y = raindrop.y
+                raindrop.rect.x =  raindrops_width + 2 * raindrops_width * raindropsNum
                 self.raindrops.add(raindrop)
 
     def run_game(self):
@@ -74,6 +80,9 @@ class Rain():
 
             # draw the raindrops
             self.raindrops.draw(self.screen)
+
+            # movement 
+            self.raindrops.update()
 
             # make the most recently drawn screen visible
             pygame.display.flip()

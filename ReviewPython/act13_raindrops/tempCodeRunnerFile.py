@@ -1,0 +1,2 @@
+  # movement 
+            self.raindrops.update()
