@@ -6,7 +6,20 @@ from pygame.sprite import Sprite
 class Raindrop(Sprite):
     """Create a fleet of raindrops"""
     def __init__(self, raindropGame):
-        super.__init__()
+        super().__init__()
+
+        # load the raindrop image
+        self.screen = raindropGame.screen
+        path = 'ReviewPython\\act13_raindrops\\raindrops.bmp'
+        self.image = pygame.image.load(path)
+        self.rect = self.image.get_rect()
+
+        # start each new raindrop near the top left of the screen
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
+
+        # store horizontal position
+        self.x = self.rect.x
 
 class Rain():
     """Manage the raindrops"""
@@ -24,6 +37,15 @@ class Rain():
         # bg color
         self.bg_color = (0, 0, 0)
 
+        # create raindrop group
+        self.raindrops = pygame.sprite.Group()
+        self._create_fleet()
+
+    def _create_fleet(self):
+        """Create fleet of raindrops"""
+        raindrop = Raindrop(self)
+        self.raindrops.add(raindrop)
+
     def run_game(self):
         """main loop for the game"""
         while True:
@@ -31,7 +53,10 @@ class Rain():
                 if event.type == pygame.QUIT:
                     sys.exit()
 
-        # make the most recently drawn screen visible
+            # draw the raindrops
+            self.raindrops.draw(self.screen)
+
+            # make the most recently drawn screen visible
             pygame.display.flip()
 
 if __name__ == "__main__":
