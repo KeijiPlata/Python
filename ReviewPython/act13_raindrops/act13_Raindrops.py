@@ -45,17 +45,22 @@ class Rain():
         """Create fleet of raindrops"""
         raindrop = Raindrop(self)
         
-        raindrops_width = raindrop.rect.width
+        raindrops_width, raindrops_height = raindrop.rect.size
 
         # compute for the available space
         available_space_x = self.screen_width # full width
+        available_space_y = self.screen_height
+        number_rows = available_space_y // raindrops_height
         number_raindorps_x = available_space_x // raindrops_width 
 
-        for raindropsNum in range(number_raindorps_x):
-            raindrop = Raindrop(self)
-            raindrop.x = raindrops_width * raindropsNum
-            raindrop.rect.x = raindrop.x
-            self.raindrops.add(raindrop)
+        for row in range(number_rows):    
+            for raindropsNum in range(number_raindorps_x):
+                raindrop = Raindrop(self)
+                raindrops_width, raindrops_height = raindrop.rect.size
+                raindrop.x = raindrops_width * raindropsNum
+                raindrop.rect.y = raindrops_height * row
+                raindrop.rect.x = raindrop.x
+                self.raindrops.add(raindrop)
 
     def run_game(self):
         """main loop for the game"""
