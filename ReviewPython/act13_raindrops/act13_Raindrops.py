@@ -44,7 +44,18 @@ class Rain():
     def _create_fleet(self):
         """Create fleet of raindrops"""
         raindrop = Raindrop(self)
-        self.raindrops.add(raindrop)
+        
+        raindrops_width = raindrop.rect.width
+
+        # compute for the available space
+        available_space_x = self.screen_width # full width
+        number_raindorps_x = available_space_x // raindrops_width 
+
+        for raindropsNum in range(number_raindorps_x):
+            raindrop = Raindrop(self)
+            raindrop.x = raindrops_width * raindropsNum
+            raindrop.rect.x = raindrop.x
+            self.raindrops.add(raindrop)
 
     def run_game(self):
         """main loop for the game"""
@@ -52,6 +63,9 @@ class Rain():
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     sys.exit()
+
+            # color black bg
+            self.screen.fill(self.bg_color)
 
             # draw the raindrops
             self.raindrops.draw(self.screen)
