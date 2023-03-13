@@ -87,6 +87,12 @@ class Rain():
             # draw the raindrops
             self.raindrops.draw(self.screen)
 
+            # remove raindrops when reach bottom
+            for drop in self.raindrops.copy():
+                if drop.rect.top > self.screen.get_rect().bottom:
+                    self.raindrops.remove(drop)
+            print(self.raindrops) # check if it removes the sprite
+
             # movement 
             self.raindrops.update()
 
