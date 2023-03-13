@@ -48,6 +48,25 @@ class Rain():
         self.raindrops = pygame.sprite.Group()
         self._create_fleet()
 
+    def create_row(self):
+        """Create newrow of raindrops"""
+        raindrop = Raindrop(self)
+        raindrops_width = raindrop.rect.width
+        available_space_x = self.screen_width
+        number_raindorps_x = available_space_x // (raindrops_width)
+
+        for raindropsNum in range(number_raindorps_x):
+             raindrop = Raindrop(self)
+             raindrops_width = raindrop.rect.width
+
+             raindrop.rect.x =  raindrops_width * raindropsNum
+
+             raindrop.rect.x += random.randint(-40, 40)
+
+             self.raindrops.add(raindrop)
+
+
+
     def _create_fleet(self):
         """Create fleet of raindrops"""
         raindrop = Raindrop(self)
@@ -87,11 +106,17 @@ class Rain():
             # draw the raindrops
             self.raindrops.draw(self.screen)
 
+            checkRemove = False
             # remove raindrops when reach bottom
             for drop in self.raindrops.copy():
                 if drop.rect.top > self.screen.get_rect().bottom:
                     self.raindrops.remove(drop)
+                    checkRemove = True
             print(self.raindrops) # check if it removes the sprite
+
+            if checkRemove:
+                self.create_row() 
+           
 
             # movement 
             self.raindrops.update()
