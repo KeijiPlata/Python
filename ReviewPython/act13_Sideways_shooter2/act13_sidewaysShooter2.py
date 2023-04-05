@@ -5,6 +5,24 @@ import sys
 import pygame
 from pygame.sprite import Sprite
 
+class Alien(Sprite):
+    """Aliens"""
+    def __init__(self, rg_game):
+        """Initizalize the alien"""
+        super().__init__()
+        self.screen = rg_game.screen
+
+        # load the image of alien
+        self.image = pygame.image.load('ReviewPython\\act13_Sideways_shooter2\\alien.bmp')
+        self.rect = self.image.get_rect()
+
+        # alien position
+        self.rect.x = self.rect.width
+        self.rect.y = self.rect.height
+
+        # store aliean horizontal position
+        self.x = self.rect.x
+
 class Bullets(Sprite):
     """ Bullets """
     def __init__(self, rg_game):
@@ -25,8 +43,6 @@ class Bullets(Sprite):
 
         self.x = self.bullet_rect.x
 
-
-
     def update(self):
         """ Move the bullet to the right """
         self.x += 1
@@ -39,7 +55,6 @@ class Bullets(Sprite):
 
 # inherits the class Sprite in the library pygame
 class Rocketgame:
-
     def __init__(self):
         """ Initialize the variable needed """
         pygame.init()
@@ -55,7 +70,7 @@ class Rocketgame:
         self.screen_rect = self.screen.get_rect()
 
         # load the ship
-        self.image = pygame.image.load('ReviewPython\\act12_alien_invasion\\ship.bmp')
+        self.image = pygame.image.load('ReviewPython\\act13_Sideways_shooter2\\ship.bmp')
         self.image = pygame.transform.rotate(self.image, -90)
         self.rect = self.image.get_rect() # get the rect of image
 
@@ -69,12 +84,17 @@ class Rocketgame:
         self.moving_up = False
         self.moving_down = False
 
+        # group for bullets
         self.bullets = pygame.sprite.Group()
+
+        # group for aliens
+        self.aliens = pygame.sprite.Group()
         
+        self._create_fleet()
 
-       
-
-    
+    def _create_fleet(self):
+        alien = Alien(self)
+        self.aliens.add(alien)
 
     def update(self):
         if self.moving_up and self.rect.top > 0:
@@ -85,9 +105,6 @@ class Rocketgame:
 
     def blitme(self):
         self.screen.blit(self.image, self.rect)
-
-  
-
 
     def run_game(self):
         """ Start the main loop for the game"""
@@ -127,6 +144,7 @@ class Rocketgame:
             self.blitme()
             for bullet in self.bullets.sprites():
                 bullet.draw_bullet()
+            self.aliens.draw(self.screen)
 
             # make the most recently drawn screen visible
             pygame.display.flip()
