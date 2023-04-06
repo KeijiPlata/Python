@@ -17,7 +17,7 @@ class Alien(Sprite):
         self.rect = self.image.get_rect()
 
         # alien position
-        self.rect.x = self.rect.width
+        self.rect.x = 1200 - self.rect.width
         self.rect.y = self.rect.height
 
         # store aliean horizontal position
