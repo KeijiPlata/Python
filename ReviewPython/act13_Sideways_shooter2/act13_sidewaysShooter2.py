@@ -97,14 +97,19 @@ class Rocketgame:
         alien = Alien(self)
         alien_height = alien.rect.height
         available_y = 800 - alien_height
-        number_x = available_y // alien_height
+        number_y = available_y // alien_height
         
         # create row
-        for alienNumber in range(number_x):
-            alien = Alien(self)
-            alien.y = alien_height + alien_height * alienNumber
-            alien.rect.y = alien.y
-            self.aliens.add(alien)
+        for rowNumber in range(2):
+            for alienNumber in range(number_y):
+                alien = Alien(self)
+                alien_height = alien.rect.height
+                alien_width = alien.rect.width
+                alien.x = 900 + 2 * alien_width * rowNumber
+                alien.rect.x = alien.x
+                alien.y = alien_height + alien_height * alienNumber
+                alien.rect.y = alien.y
+                self.aliens.add(alien)
 
     def update(self):
         if self.moving_up and self.rect.top > 0:
