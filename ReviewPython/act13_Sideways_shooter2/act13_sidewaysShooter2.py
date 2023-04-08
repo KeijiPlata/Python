@@ -24,6 +24,15 @@ class Alien(Sprite):
         self.x = self.rect.x
         self.y = self.rect.y
 
+        # alien movement speed
+        self.alien_speed = 1
+
+    def update(self):
+        """Move the alien up and down then to the left"""
+        self.y += self.alien_speed
+        self.rect.y = self.y
+
+
 class Bullets(Sprite):
     """ Bullets """
     def __init__(self, rg_game):
@@ -154,6 +163,9 @@ class Rocketgame:
             # bullets
             self.bullets.update()
 
+            # update movement alien
+            self._update_aliens()
+
             # redraw the screen to change the bg color (black color)
             self.screen.fill(self.bg_color)
             self.blitme()
@@ -168,6 +180,10 @@ class Rocketgame:
         """ Create new bullet and store it in the group """
         new_bullet = Bullets(self)
         self.bullets.add(new_bullet)
+
+    def _update_aliens(self):
+        """Update the position of rows"""
+        self.aliens.update()
 
 if __name__ == "__main__":
     rg = Rocketgame()
