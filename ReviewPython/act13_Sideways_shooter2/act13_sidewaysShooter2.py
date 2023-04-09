@@ -25,12 +25,12 @@ class Alien(Sprite):
         self.y = self.rect.y
 
         # alien movement speed
-        self.alien_speed = 1
+        self.alien_speed = 0.1
 
     def update(self):
         """Move the alien up and down then to the left"""
         self.x -= self.alien_speed
-        self.rect.x = self.x
+        self.rect.x = float(self.x)
 
 
 class Bullets(Sprite):
@@ -46,21 +46,21 @@ class Bullets(Sprite):
         self.screen = rg_game.screen
         
          # create a bullet
-        self.bullet_rect = pygame.Rect(0, 0, self.bullet_width, 
+        self.rect = pygame.Rect(0, 0, self.bullet_width, 
                                        self.bullet_height)
         # set the bullet position on where the ship is
-        self.bullet_rect.midright = rg_game.rect.midright
+        self.rect.midright = rg_game.rect.midright
 
-        self.x = self.bullet_rect.x
+        self.x = self.rect.x
 
     def update(self):
         """ Move the bullet to the right """
         self.x += 1
-        self.bullet_rect.x = self.x
+        self.rect.x = self.x
         
     def draw_bullet(self):
         """draw the bullet to the screen"""
-        pygame.draw.rect(self.screen, self.bullet_color, self.bullet_rect)
+        pygame.draw.rect(self.screen, self.bullet_color, self.rect)
         
 
 # inherits the class Sprite in the library pygame
@@ -162,6 +162,9 @@ class Rocketgame:
 
             # bullets
             self.bullets.update()
+
+            collisions = pygame.sprite.groupcollide(self.bullets, self.aliens,
+                                                True, True)
 
             # update movement alien
             self._update_aliens()
