@@ -29,8 +29,8 @@ class Alien(Sprite):
 
     def update(self):
         """Move the alien up and down then to the left"""
-        self.y += self.alien_speed
-        self.rect.y = self.y
+        self.x -= self.alien_speed
+        self.rect.x = self.x
 
 
 class Bullets(Sprite):
