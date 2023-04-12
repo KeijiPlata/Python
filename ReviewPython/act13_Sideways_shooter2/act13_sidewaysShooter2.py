@@ -163,6 +163,11 @@ class Rocketgame:
             # bullets
             self.bullets.update()
 
+            if not self.aliens:
+            # destroy bullets and create new fleet
+                self.bullets.empty()
+                self._create_fleet()
+
             collisions = pygame.sprite.groupcollide(self.bullets, self.aliens,
                                                 True, True)
 
