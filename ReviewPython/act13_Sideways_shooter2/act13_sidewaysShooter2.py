@@ -49,7 +49,7 @@ class Bullets(Sprite):
         self.rect = pygame.Rect(0, 0, self.bullet_width, 
                                        self.bullet_height)
         # set the bullet position on where the ship is
-        self.rect.midright = rg_game.rect.midright
+        self.rect.midright = rg_game.ship.rect.midright
 
         self.x = self.rect.x
 
@@ -61,7 +61,43 @@ class Bullets(Sprite):
     def draw_bullet(self):
         """draw the bullet to the screen"""
         pygame.draw.rect(self.screen, self.bullet_color, self.rect)
+
+class Ship:
+    """ship"""
+    def __init__(self, rg_game):
+        """initialize variables"""
+        self.screen = rg_game.screen
+        self.screen_rect = rg_game.screen.get_rect()
+
+        # load the ship
+        self.image = pygame.image.load('ReviewPython\\act13_Sideways_shooter2\\ship.bmp')
+        self.image = pygame.transform.rotate(self.image, -90)
+        self.rect = self.image.get_rect() # get the rect of image
+
+        # Start new ship at the center of the screen
+        # rect is the box of the image / size 
+        # screen_rect is the screen screen size
+        self.rect.midleft = self.screen_rect.midleft # coordinates
+
+        # movement flag up and down only
+        self.moving_up = False
+        self.moving_down = False
+
+        self.x = self.rect.x
+
+    
+    def update(self):
+        if self.moving_up and self.rect.top > 0:
+            self.rect.y -= 1
+        if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
+            self.rect.y += 1
+
+
+    def blitme(self):
+        self.screen.blit(self.image, self.rect)
+
         
+            
 
 # inherits the class Sprite in the library pygame
 class Rocketgame:
@@ -79,20 +115,12 @@ class Rocketgame:
         # get the screen size
         self.screen_rect = self.screen.get_rect()
 
-        # load the ship
-        self.image = pygame.image.load('ReviewPython\\act13_Sideways_shooter2\\ship.bmp')
-        self.image = pygame.transform.rotate(self.image, -90)
-        self.rect = self.image.get_rect() # get the rect of image
+        self.ship = Ship(self)
 
 
-        # Start new ship at the center of the screen
-        # rect is the box of the image / size 
-        # screen_rect is the screen screen size
-        self.rect.midleft = self.screen_rect.midleft # coordinates
+     
 
-        # movement flag up and down only
-        self.moving_up = False
-        self.moving_down = False
+     
 
         # group for bullets
         self.bullets = pygame.sprite.Group()
@@ -101,6 +129,14 @@ class Rocketgame:
         self.aliens = pygame.sprite.Group()
         
         self._create_fleet()
+
+    def _update_aliens(self):
+        """Update the position of rows"""
+        self.aliens.update()
+
+        # look for the alien ship colliesions
+        if pygame.sprite.spritecollideany(self.ship, self.aliens):
+            print("Ship hit!")
 
     def _create_fleet(self):
         alien = Alien(self)
@@ -120,15 +156,6 @@ class Rocketgame:
                 alien.rect.y = alien.y
                 self.aliens.add(alien)
 
-    def update(self):
-        if self.moving_up and self.rect.top > 0:
-            self.rect.y -= 1
-        if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
-            self.rect.y += 1
-
-
-    def blitme(self):
-        self.screen.blit(self.image, self.rect)
 
     def run_game(self):
         """ Start the main loop for the game"""
@@ -139,10 +166,10 @@ class Rocketgame:
                 elif event.type == pygame.KEYDOWN:
                     if event.key == pygame.K_UP:
                         # Move the ship to the left
-                        self.moving_up = True
+                        self.ship.moving_up = True
                     elif event.key == pygame.K_DOWN:
                         # Move the ship to the left
-                        self.moving_down = True
+                        self.ship.moving_down = True
                     elif event.key == pygame.K_q:
                         # if user press q, it will quit the game
                         sys.exit()
@@ -152,13 +179,13 @@ class Rocketgame:
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_UP:
                         # Stop ship 
-                        self.moving_up = False
+                        self.ship.moving_up = False
                     elif event.key == pygame.K_DOWN:
                         # Stop ship 
-                        self.moving_down = False
+                        self.ship.moving_down = False
                    
             # update ship position
-            self.update()
+            self.ship.update()
 
             # bullets
             self.bullets.update()
@@ -176,7 +203,7 @@ class Rocketgame:
 
             # redraw the screen to change the bg color (black color)
             self.screen.fill(self.bg_color)
-            self.blitme()
+            self.ship.blitme()
             for bullet in self.bullets.sprites():
                 bullet.draw_bullet()
             self.aliens.draw(self.screen)
@@ -189,9 +216,7 @@ class Rocketgame:
         new_bullet = Bullets(self)
         self.bullets.add(new_bullet)
 
-    def _update_aliens(self):
-        """Update the position of rows"""
-        self.aliens.update()
+  
 
 if __name__ == "__main__":
     rg = Rocketgame()
