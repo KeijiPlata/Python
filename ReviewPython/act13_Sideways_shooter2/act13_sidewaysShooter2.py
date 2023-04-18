@@ -4,6 +4,22 @@
 import sys
 import pygame
 from pygame.sprite import Sprite
+from time import sleep
+
+class GameStats:
+    """track statistics"""
+
+    def __init__(self, rg_game):
+        """initialize variables"""
+        self.reset_stats()
+
+        # game state
+        self.game_active = True
+
+    def reset_stats(self):
+        """reset"""
+        self.ship_left = 3
+        
 
 class Alien(Sprite):
     """Aliens"""
@@ -87,6 +103,7 @@ class Ship:
 
     
     def update(self):
+        """movements"""
         if self.moving_up and self.rect.top > 0:
             self.rect.y -= 1
         if self.moving_down and self.rect.bottom < self.screen_rect.bottom:
@@ -94,7 +111,12 @@ class Ship:
 
 
     def blitme(self):
+        """draw the image to the screen"""
         self.screen.blit(self.image, self.rect)
+
+    def center_ship(self):
+        """center the ship"""
+        self.rect.midleft = self.screen_rect.midleft
 
         
             
@@ -115,12 +137,11 @@ class Rocketgame:
         # get the screen size
         self.screen_rect = self.screen.get_rect()
 
+        # initialize the ship
         self.ship = Ship(self)
 
-
-     
-
-     
+        # initialize the stats
+        self.stats = GameStats(self)
 
         # group for bullets
         self.bullets = pygame.sprite.Group()
@@ -136,7 +157,7 @@ class Rocketgame:
 
         # look for the alien ship colliesions
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
-            print("Ship hit!")
+            self._ship_hit()
 
     def _create_fleet(self):
         alien = Alien(self)
@@ -183,23 +204,24 @@ class Rocketgame:
                     elif event.key == pygame.K_DOWN:
                         # Stop ship 
                         self.ship.moving_down = False
-                   
-            # update ship position
-            self.ship.update()
+            
+            if self.stats.game_active:
+                # update ship position
+                self.ship.update()
 
-            # bullets
-            self.bullets.update()
+                # bullets
+                self.bullets.update()
 
-            if not self.aliens:
-            # destroy bullets and create new fleet
-                self.bullets.empty()
-                self._create_fleet()
+                if not self.aliens:
+                # destroy bullets and create new fleet
+                    self.bullets.empty()
+                    self._create_fleet()
 
-            collisions = pygame.sprite.groupcollide(self.bullets, self.aliens,
-                                                True, True)
+                collisions = pygame.sprite.groupcollide(self.bullets, self.aliens,
+                                                    True, True)
 
-            # update movement alien
-            self._update_aliens()
+                # update movement alien
+                self._update_aliens()
 
             # redraw the screen to change the bg color (black color)
             self.screen.fill(self.bg_color)
@@ -216,7 +238,28 @@ class Rocketgame:
         new_bullet = Bullets(self)
         self.bullets.add(new_bullet)
 
-  
+    def _ship_hit(self):
+        """ Respond when the ship is hit"""
+
+        if self.stats.ship_left > 0:
+            # decrement life
+            self.stats.ship_left -= 1
+
+            # get rid of any bullets and aliens
+            self.aliens.empty()
+            self.bullets.empty()
+
+            # create a new fleet
+            self._create_fleet()
+            self.ship.center_ship()
+
+            # Pause
+            sleep(0.5)
+
+        else:
+            self.stats.game_active = False
+    
+
 
 if __name__ == "__main__":
     rg = Rocketgame()
