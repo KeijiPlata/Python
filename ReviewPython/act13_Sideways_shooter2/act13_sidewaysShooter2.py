@@ -41,7 +41,7 @@ class Alien(Sprite):
         self.y = self.rect.y
 
         # alien movement speed
-        self.alien_speed = 0.1
+        self.alien_speed = 1
 
     def update(self):
         """Move the alien up and down then to the left"""
@@ -151,6 +151,14 @@ class Rocketgame:
         
         self._create_fleet()
 
+    def _check_aliens_left(self):
+        """check if the alien is in the right side of the screen"""
+        for alien in self.aliens.sprites():
+            if alien.rect.left < self.screen.get_rect().left:
+                self._ship_hit()
+                break
+
+
     def _update_aliens(self):
         """Update the position of rows"""
         self.aliens.update()
@@ -158,6 +166,8 @@ class Rocketgame:
         # look for the alien ship colliesions
         if pygame.sprite.spritecollideany(self.ship, self.aliens):
             self._ship_hit()
+
+        self._check_aliens_left()
 
     def _create_fleet(self):
         alien = Alien(self)
